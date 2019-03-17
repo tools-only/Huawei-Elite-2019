@@ -63,9 +63,9 @@ class Graph:
         self.adj = collections.defaultdict(set) 
         for _, road in roads.iterrows():
             if road['isDuplex'] == 1: # 双向道路
-                self.adj[road['to']].add(Road(road['to'],road['from'],road['length']))
+                self.adj[road['to']].add(Road(road['length'], road['to'],road['from']))
                 # self.adj[road['to']].add(Road(road['length'],road['to'],road['from']))
-            self.adj[road['from']].add(Road(road['from'],road['to'],road['length']))
+            self.adj[road['from']].add(Road(road['length'], road['from'],road['to']))
    
     def Shortest_path(self, start, end):
         '''
