@@ -7,11 +7,13 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cfloat>
+#include "RNG.h" 
 #include <string>
 #include <vector>
 #include <cmath>
 #include <queue>
 #include <ctime>
+#include <stack>
 #include <set>
 #include <map>
 const int INF=0x3f3f3f3f;  
@@ -36,6 +38,7 @@ struct ROAD{
 struct CROSS{
 	int id;
 	int roadid[4];
+	int value;
 };
 struct GRAPH{
 	int    roadid=-1;
@@ -57,7 +60,8 @@ std::vector<ROAD>                 Road;
 std::vector<CROSS>               Cross;
 std::vector<std::vector<GRAPH> > Graph;
 std::vector<PLAN>                 Plan;
-
+int                            timenow; 
+const double        DjikstraFactor=0.5; 
 void SplitString(const std::string& s, std::vector<std::string>& v, const std::string& c){
 	std::string::size_type pos1, pos2;
 	pos2 = s.find(c);
@@ -136,7 +140,7 @@ void Input(std::string Carfile,std::string Roadfile,std::string Crossfile){
 						   {RoadMap[std::stoi(data[1])],
 						    RoadMap[std::stoi(data[2])],
 						    RoadMap[std::stoi(data[3])],
-						    RoadMap[std::stoi(data[4])]}};
+						    RoadMap[std::stoi(data[4])]},0};
 			Cross.push_back(tmpcross);
 		    CrossMap.insert(std::pair<int,int>(tmpcross.id,CrossSize++));
 		}
@@ -185,10 +189,10 @@ void Output(std::string answerfile){
 	std::ofstream OUT(answerfile);
 	OUT<<"#(carId,StartTime,RoadId...)\n";
 	//for(int )
-	for(auto it:Plan){
-		OUT<<"("<<it.id<<","<<it.starttime;
-		for(auto it_=it.roadid.begin();it_!=it.roadid.end();it_++){
-			OUT<<","<<Road[(*it_)].id;//vector<int> rns[-1]
+	for(int i=0;i<CarSize;i++){
+		OUT<<"("<<Plan[i].id<<","<<Plan[i].starttime+i/30;
+		for(auto it=Plan[i].roadid.begin();it!=Plan[i].roadid.end();it++){
+			OUT<<","<<Road[(*it)].id;//vector<int> rns[-1]
 			//OUT<<","<<*it_;		
 		}
 		OUT<<")\n";
@@ -197,7 +201,7 @@ void Output(std::string answerfile){
 }
 
 bool cmpCar(CAR &a,CAR &b){
-	return (a.time==b.time)?a.id<b.id:a.time<b.time;
+	return (a.time==b.time)?((a.speed==b.speed)?a.speed>b.speed:a.id<b.id):a.time<b.time;
 }
 
 void Floyed(){
@@ -205,15 +209,17 @@ void Floyed(){
 }
 
 void PlanWithDjikstra(CAR &car,PLAN &plan){
-	std::vector<int>         tmpRoadList;
-//	std::vector<int>      dist(CrossSize,INF);
-	std::vector<bool>    flag(CrossSize,true);
-	int      source=car.from,destation=car.to;
-	int                         cnt=0;
-	tmpRoadList.clear();
+//	std::vector<int>             tmpRoadList;
+//	std::stack<int>            tmpCrossStack; 
+	std::vector<int> pathCross(CrossSize,-1);	
+	std::vector<int>     dist(CrossSize,INF);
+	std::vector<bool>   flag(CrossSize,true);
+	int     source=car.from,destation=car.to;
+//	int                                  now;
+//	tmpRoadList.clear();
 	
 	for(int i=0;i<RoadSize;i++){
-		Road[i].value=Road[i].value-1+Road[i].length/Road[i].channel/std::min(Road[i].speed,car.speed);
+		Road[i].value=Road[i].value+Road[i].length/Road[i].channel/std::min(Road[i].speed,car.speed);
 		// TODO:Optimization;
 	}
 //	std::cout<<source<<" "<<destation<<"\n";
@@ -225,32 +231,66 @@ void PlanWithDjikstra(CAR &car,PLAN &plan){
 //		}
 //		std::cout<<"\n";
 //	}
+	for(int i=0;i<CrossSize;i++)
+		if(Graph[source][i].roadid!=-1){
+		  dist[i]=Road[Graph[source][i].roadid].value+Cross[source].value+Cross[i].value;
+		  pathCross[i]=source;
+//		  std::cout<<i<<" "<<dist[i]<<"\n";
+		}
+	dist[source]=0;
 	flag[source]=false;
-	while(cnt<CrossSize){
-		int minValue=INF,minCrossid=-1,roadid=-1,tmproadid;
-//		std::cout<<cnt<<"\n";
+	
+	for(int k=0;k<CrossSize;k++){
+		int minValue=INF,minCrossid=-1;
+		bool findOne=false;
+//		std::cout<<"-----\nk="<<k<<"\n";
 		for(int i=0;i<CrossSize;i++){
-		    tmproadid=Graph[source][i].roadid;//
- 			if((flag[i])&&(tmproadid!=-1)&&(minValue>Road[tmproadid].value)){
-				minValue=Road[i].value;
-				minCrossid=i;
-				roadid=tmproadid;
-			//	std::cout<<minCrossid<<" "<<minValue<<" "<<Road[roadid].id<<"\n";
+ 			if((flag[i])&&(minValue>dist[i])){
+ 				if(findOne){
+ 					if(randf()>DjikstraFactor){
+					  	minValue=dist[i];
+						minCrossid=i;	
+//						std::cout<<randf()<<'\n'; 
+					}
+				} 
+				else{
+	 				minValue=dist[i];
+					minCrossid=i;
+					findOne=true;					
+				}
+//				std::cout<<minCrossid<<" "<<minValue<<"\n";
 			}
 	    }
-//	    std::cout<<roadid<<"\n";
-		if(minCrossid==-1) break;
+	    if(minCrossid==-1) break;//not connect;
 		flag[minCrossid]=false;
-		Road[roadid].value--;
-		source=minCrossid;
-		plan.roadid.push_back(roadid);
-		if(minCrossid==destation) break;
-		cnt++;
+//		plan.roadid.push_back(roadid);
+//		std::cout<<"minCross£º"<<minCrossid<<"\n";
+		for(int i=0;i<CrossSize;i++){
+			if(flag[i]){
+				int roadid=Graph[minCrossid][i].roadid;
+				if((roadid!=-1)&&(dist[i]>(dist[minCrossid]+Road[roadid].value+Cross[i].value))){
+					dist[i]=dist[minCrossid]+Road[roadid].value+Cross[i].value;
+					pathCross[i]=minCrossid;
+//					std::cout<<"minCross£º"<<minCrossid<<" "<<i<<"\n"; 
+				} 
+			}	
+		}
 	}
-//	tmpCrossList.push_back(source);
 	
-//	tmpCrossList.push_back(destation);
-	
+	while(pathCross[destation]!=-1){
+		int roadid=Graph[pathCross[destation]][destation].roadid;
+		plan.roadid.push_back(roadid);
+		Road[roadid].value++;
+		Cross[destation].value++;
+		Cross[pathCross[destation]].value++;
+		destation=pathCross[destation];
+
+	}
+	std::reverse(plan.roadid.begin(),plan.roadid.end());
+//	for(auto it:plan.roadid){
+//		std::cout<<Road[it].id<<' ';
+//	}	
+//	std::cout<<'\n';
 //	for(int i=0;i<tmpCrossList.size()-1;i++){
 //		//std::cout<<tmpCrossList[i]<<" "<<tmpCrossList[i+1]<<"\n";
 //		//std::cout<<Graph[tmpCrossList[i]][tmpCrossList[i+1]].roadid<<"\n";
@@ -265,46 +305,45 @@ void PlanWithDjikstra(CAR &car,PLAN &plan){
 void Process(){
 //	for(auto it:Car)
 //		std::cout<<it.id<<" "<<it.from<<"\n";
-			
+//	for(int i=0;i<CarSize;i++) Car[i].time+=i/500;
+		
 	sort(Car.begin(),Car.end(),cmpCar);
-//	for(auto it:Car){
-////		std::cout<<it.id<<" ";
-//		Plan.push_back(PlanWithDjikstra(it));	
-//	}
+	
 	for(int i=0;i<CarSize;i++){
 		PlanWithDjikstra(Car[i],Plan[i]);
 	}
-//	PlanWithDjikstra(Car[119],Plan[119]);
-		
+//	PlanWithDjikstra(Car[0],Plan[0]);
 } 
 
-int main(int argc, char *argv[])
-{
-    std::cout << "Begin" << std::endl;
-	
-	if(argc < 5){
-		std::cout << "please input args: carPath, roadPath, crossPath, answerPath" << std::endl;
-		exit(1);
-	}
-	
-	std::string carPath(argv[1]);
-	std::string roadPath(argv[2]);
-	std::string crossPath(argv[3]);
-	std::string answerPath(argv[4]);
-	
-	std::cout << "carPath is " << carPath << std::endl;
-	std::cout << "roadPath is " << roadPath << std::endl;
-	std::cout << "crossPath is " << crossPath << std::endl;
-	std::cout << "answerPath is " << answerPath << std::endl;
-	
-	Input(carPath,roadPath,crossPath);
-	Process();
-	Output(answerPath);
-    return 0; 
-}	
-//int main(){
-//	Input("car.txt","road.txt","cross.txt");
+//int main(int argc, char *argv[])
+//{
+// 	  sgenrand((unsigned)time(NULL));//initialize RNG 
+//    std::cout << "Begin" << std::endl;
+//	
+//	if(argc < 5){
+//		std::cout << "please input args: carPath, roadPath, crossPath, answerPath" << std::endl;
+//		exit(1);
+//	}
+//	
+//	std::string carPath(argv[1]);
+//	std::string roadPath(argv[2]);
+//	std::string crossPath(argv[3]);
+//	std::string answerPath(argv[4]);
+//	
+//	std::cout << "carPath is "    << carPath    << std::endl;
+//	std::cout << "roadPath is "   << roadPath   << std::endl;
+//	std::cout << "crossPath is "  << crossPath  << std::endl;
+//	std::cout << "answerPath is " << answerPath << std::endl;
+//	
+//	Input(carPath,roadPath,crossPath);
 //	Process();
-//	Output("answar.txt");
-//	return 0;
-//}
+//	Output(answerPath);
+//  	return 0; 
+//} 
+int main(){
+	sgenrand((unsigned)time(NULL));//initialize RNG
+	Input("car.txt","road.txt","cross.txt");
+	Process();
+	Output("answar.txt");
+	return 0;
+}
