@@ -190,7 +190,7 @@ void Output(std::string answerfile){
 	OUT<<"#(carId,StartTime,RoadId...)\n";
 	//for(int )
 	for(int i=0;i<CarSize;i++){
-		OUT<<"("<<Plan[i].id<<","<<Plan[i].starttime+i/30;
+		OUT<<"("<<Plan[i].id<<","<<Plan[i].starttime+i/15;
 		for(auto it=Plan[i].roadid.begin();it!=Plan[i].roadid.end();it++){
 			OUT<<","<<Road[(*it)].id;//vector<int> rns[-1]
 			//OUT<<","<<*it_;		
@@ -246,18 +246,18 @@ void PlanWithDjikstra(CAR &car,PLAN &plan){
 //		std::cout<<"-----\nk="<<k<<"\n";
 		for(int i=0;i<CrossSize;i++){
  			if((flag[i])&&(minValue>dist[i])){
- 				if(findOne){
- 					if(randf()>DjikstraFactor){
-					  	minValue=dist[i];
-						minCrossid=i;	
-//						std::cout<<randf()<<'\n'; 
-					}
-				} 
-				else{
+// 				if(findOne){
+// 					if(randf()>DjikstraFactor){
+//					  	minValue=dist[i];
+//						minCrossid=i;	
+////						std::cout<<randf()<<'\n'; 
+//					}
+//				} 
+//				else{
 	 				minValue=dist[i];
 					minCrossid=i;
 					findOne=true;					
-				}
+				//}
 //				std::cout<<minCrossid<<" "<<minValue<<"\n";
 			}
 	    }
@@ -284,7 +284,6 @@ void PlanWithDjikstra(CAR &car,PLAN &plan){
 		Cross[destation].value++;
 		Cross[pathCross[destation]].value++;
 		destation=pathCross[destation];
-
 	}
 	std::reverse(plan.roadid.begin(),plan.roadid.end());
 //	for(auto it:plan.roadid){
