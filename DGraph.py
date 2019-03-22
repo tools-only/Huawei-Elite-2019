@@ -128,7 +128,7 @@ class  Cross:
         if dir == 1:
             return False
         if dir == 2: # 左转让直行
-            indexD = (index - 1) % 4 # index好像要调用cross的数据结构？因为road的id可能是乱序的
+            indexD = (index - 1) % 4 
             for channel in CarRoadOn[indexD]:
                 for car in channel:
                     if car.dir==1:
