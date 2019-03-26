@@ -25,4 +25,4 @@
 2) 车道数；  
 3) t时刻当前道路上的车的数量（车的速度）。  
 ### 3月26日：
-[当前调度策略下，网络整体流量的估计值](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E4%BA%A4%E9%80%9A%E7%BD%91%E7%BB%9C%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1.png?raw=true)
+![当前调度策略下，网络整体流量的估计值](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E4%BA%A4%E9%80%9A%E7%BD%91%E7%BB%9C%E8%BD%A6%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1.png?raw=true)
