@@ -2,7 +2,9 @@
 ## - 想吃热干面(是真的想吃   
 ### 3月26日：  
 网络流量分析图(x:当前待放置的车辆编号, y:当前时刻网络中的存活车辆数)  
-![当前调度策略下，网络整体流量的估计值（局部图）](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90.png?raw=true)
+![当前调度策略下，网络整体流量的估计值](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90.png?raw=true)
+局部信息：  
+![当前调度策略下，网络整体流量的估计值（局部图）]https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90(%E5%B1%80%E9%83%A8).png?raw=true
 ### 3月25日：
 黄：目前我们估计的到达每个节点的时间是用路径长度除以车辆可行驶的最大速度。这个值是理想状态下的值，是真实值的下界。
 记录影响车辆到达路径中每个节点时间的因素，基于拥塞严重时与真实到达时间的偏移要大一些的假设：  
