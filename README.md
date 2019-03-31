@@ -1,24 +1,28 @@
 # Huawei-Elite-2019
-## - 想吃热干面(是真的想吃   
+## - 想吃热干面(是真的想吃  
+### 3月31日：  
+**相关博客**  
+[交通分配与复杂网络分析](https://blog.csdn.net/LZX19901012)  
+**初赛成绩**  
+感谢女神和星座！  
+![初赛成绩](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E5%88%9D%E8%B5%9B%E6%88%90%E7%BB%A9.png?raw=true)   
+
 ### 3月30日：  
-
-**初赛**： 发现路径time_cost+cross_value \* road_value比三项相乘结果要好，记录几组较好的参数：  
-
+**初赛**  
+发现路径time_cost+cross_value \* road_value比三项相乘结果要好，记录几组较好的参数：  
 1. delta_time=695，挥发率=0.80，流量进入间隔=75 ==> map1:1075，map2:1067  
 2. 挥发率=0.80，流量进入间隔=75 ==> map1:1103，map2:1075  
 3. 挥发率=0.80，流量进入间隔=70 ==> map1:1139，map2:1154  
-
-**如果有复赛**  
+**如果有复赛(有了！**  
 1. 分析一下权重公式原因，需要数据可视化组件；  
 2. 周的前期后期流量优化考虑一下，及优化数据结构；  
 3. 想看一下，先把车放到每个Cross上，然后按Cross[].id把车放入地图是否有效果；  
 4. 强化学习+判题器的方法调参不是不可以。  
 5. 朱：对时间片算法持否认态度。  
-
 ### 3月29日：
 删除了一些错误的图  
 网络流量图：  
-[网络流量图](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%9B%BE.png?raw=true)
+![网络流量图](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%9B%BE.png?raw=true)
 ### 3月28日：  
 发现权重累加反而效果更好，让路径尽可能均匀分布，然后调整进入网络的流量或许是个办法。  
 ### 3月25日：
