@@ -40,9 +40,9 @@ struct INFO_CROSS {
 };
 ```
 ### 车的规划的基础信息
-```c++
 + 主要是roadid[]这个可变数组，保存车辆的路径信息；
-##PresetCar直接存入PLAN类##
++ **PresetCar直接存入PLAN类**
+```c++
 struct INFO_PLAN {
 	int                  id;
 	bool        hasPriority;
@@ -106,14 +106,6 @@ const int          carFlowSliceSize =  36;//没次放多少量车加出发时间
 const double               phoCross = 0.2;//挥发率；
 const double                phoRoad = 0.2;
 ```
-### 映射表 
-```c++
-std::map<int, int>                 CarMap;
-std::map<int, int>           PresetCarMap;//有可能是多余或没法使用的；
-std::map<int, int>     HighPriorityCarMap;//同理;
-std::map<int, int>                RoadMap;
-std::map<int, int>               CrossMap;
-```
 ### 所有的基本信息及其SIZE
 + SIZE有点重复，完全可以用```class.size()```，但是我喜欢用:smiling_imp:（咬我呀）；
 ```c++
@@ -128,7 +120,13 @@ std::vector<INFO_ROAD>                       Road;
 std::vector<INFO_CROSS>                     Cross;
 std::vector<INFO_PLAN>                       Plan;//PresetCar的路径直接写入；
 ```
+### 映射表 
 ```c++
+std::map<int, int>                 CarMap;
+std::map<int, int>           PresetCarMap;//有可能是多余或没法使用的；
+std::map<int, int>     HighPriorityCarMap;//同理;
+std::map<int, int>                RoadMap;
+std::map<int, int>               CrossMap;
 std::vector<std::vector<CROSSMAPUNIT> >   CrossGraphMap;//根据Cross,寻找Road.
 std::vector<std::vector<ROADMAPUNIT> >     RoadGraphMap;//
 ```
