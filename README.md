@@ -1,11 +1,17 @@
 # Huawei-Elite-2019
-## - 想吃热干面(是真的想吃  
+## 想吃热干面(是真的想吃  
+
+### 4月9日：  
+昨天，用了一下判题器发现，之前的流量优化（算法写错了）没做好。线性的放入车辆确实阻碍了成绩的提升（优化空间大）。我们的路径安排算法还是很合理的。
+
+---
+
 ### 3月31日：  
 **相关博客**  
 [交通分配与复杂网络分析](https://blog.csdn.net/LZX19901012)  
 **初赛成绩**  
 感谢女神和星座！  
-![初赛成绩](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E5%88%9D%E8%B5%9B%E6%88%90%E7%BB%A9.png?raw=true)   
+![初赛成绩](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E5%88%9D%E8%B5%9B%E6%88%90%E7%BB%A9.png?raw=true)  
 
 ### 3月30日：  
 **初赛**  
@@ -24,6 +30,7 @@
 删除了一些错误的图  
 网络流量图：  
 ![网络流量图](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E6%B5%81%E9%87%8F%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%9B%BE.png?raw=true)
+
 ### 3月28日：  
 发现权重累加反而效果更好，让路径尽可能均匀分布，然后调整进入网络的流量或许是个办法。  
 ### 3月25日：
