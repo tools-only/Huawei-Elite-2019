@@ -2,6 +2,7 @@
 ## 想吃热干面(是真的想吃  
 <font color=#9932CC size = 12>虽然纽约时间比加州时间快三个小时，但加州时间并没有变慢，感谢队友和这段经历。</font>
 
+<font color=gray size=72>color=gray</font>
 ### 4月13日：  
 **复赛成绩**  
 ![复赛成绩](https://github.com/tools-only/Huawei-Elite-2019/blob/master/%E5%A4%8D%E8%B5%9B/%E5%A4%8D%E8%B5%9B%E6%88%90%E7%BB%A9.png?raw=true)  
